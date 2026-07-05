@@ -133,10 +133,8 @@ Además de integrarse en el formulario y el login, cada validación imprime su r
 ### 4. Login vacío / con errores
 ![alt text](image-4.png)
 
-### 5. Consola mostrando resultados correctos (true)
-:(aquí pega la captura donde enseñes esto)
 
-### 6. Consola mostrando resultados incorrectos (false)
+### . Consola mostrando resultados incorrectos (false) y correctos(true)
 ![alt text](image-5.png)
 
 ![alt text](image-6.png)
