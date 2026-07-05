@@ -1,6 +1,6 @@
 # Utilería.js — Librería de Validaciones para Formularios
 
-![alt text](img/Captura de pantalla2026-07-04234512).
+![alt text](img/uno.png)
 
 ---
 
@@ -122,26 +122,26 @@ Además de integrarse en el formulario y el login, cada validación imprime su r
 ## Capturas de pantalla
 
 ### 1. Formulario vacío
-![alt text](image-1.png)
+![alt text](img/dos.png)
 
 ### 2. Validación de campos con error (nombre, correo, teléfono)
-![alt text](image-2.png)
+![alt text](img/tres.png)
 
 ### 3. Formulario validado con éxito y modal de edad
-![alt text](image-3.png)
+![alt text](img/cuatro.png)
 
 ### 4. Login vacío / con errores
-![alt text](image-4.png)
+![alt text](img/cinco.png)
 
 
 ### . Consola mostrando resultados incorrectos (false) y correctos(true)
-![alt text](image-5.png)
+![alt text](img/seis.png)
 
-![alt text](image-6.png)
+![alt text](img/siete.png)
 
-![alt text](image-7.png)
+![alt text](img/ocho.png)
 
-![alt text](image-8.png)
+![alt text](img/nueve.png)
 
 
 ---
