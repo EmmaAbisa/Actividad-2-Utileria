@@ -152,4 +152,4 @@ Además de integrarse en el formulario y el login, cada validación imprime su r
 
 El formulario y el login funcionando en vivo pueden consultarse en el siguiente enlace:
 
-🔗 **Ver página en vivo (GitHub Pages):** _[]_
+🔗 **Ver página en vivo (GitHub Pages):** _[https://emmaabisa.github.io/Actividad-2-Utileria/]_
