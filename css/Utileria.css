@@ -1,0 +1,153 @@
+/* 1. VARIABLES CSS */
+:root {
+    --color-primario: #927dc1;     /* Morado claro */
+    --color-secundario: #4CC9F0;   /* Verde-azul */
+    --color-fondo: #F8F9FA;        /* Gris claro */
+    --color-texto: #2B2D42;        /* Texto principal */
+    --color-borde: #E9ECEF;        /* Bordes sutiles */
+    --color-error: #EF4444;        /* Rojo para validaciones */
+    --terracotta: var(--color-error);
+}
+
+/* 2. RESET BÁSICO */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 3. ESTILOS GENERALES */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    padding: 40px 20px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-overlay.activo {
+  display: flex;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.modal-box .tag {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--color-primario);
+}
+
+.modal-edad {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--color-texto);
+  margin: 6px 0 0;
+}
+
+.modal-box .detalle {
+  color: #6C757D;
+  font-size: 13px;
+  margin: 10px 0 20px;
+}
+
+.contenedor-formulario {
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+    font-size: 26px;
+    color: var(--color-primario);
+    margin-bottom: 8px;
+}
+
+.subtitulo {
+    color: #6C757D;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+/* 4. COMPONENTES DEL FORMULARIO */
+.grupo-formulario {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+input:focus {
+    border-color: var(--color-secundario);
+    outline: none;
+    box-shadow: 0 0 3px rgba(76, 201, 240, 0.2);
+}
+
+/* Estado visual para el tipo label bloqueadoo */
+input[readonly] {
+    background-color: #F1F3F5;
+    color: #495057;
+    border-color: var(--color-borde);
+    cursor: not-allowed;
+    font-weight: 600;
+}
+
+/* Mensaje de error que trae csss */
+.error-msg {
+    color: var(--color-error);
+    font-size: 13px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* 5. BOTÓN DE ENVÍO */
+.boton-enviar {
+    width: 100%;
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.boton-enviar:hover {
+    background-color: #2a0880;
+}
