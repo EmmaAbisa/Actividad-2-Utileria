@@ -1,6 +1,6 @@
 # Utilería.js — Librería de Validaciones para Formularios
 
-![alt text](image.png)
+![alt text](img/Captura de pantalla 2026-07-04 234512)
 
 ---
 
