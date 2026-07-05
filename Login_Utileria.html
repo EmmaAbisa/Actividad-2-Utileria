@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilería · Login</title>
+  <link rel="stylesheet" href="css/Utileria.css" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="crumbs"><a href="index_Utileria.html">Formulario</a> · <a href="Login_Utileria.html">Login</a></nav>
+
+    <div class="brand">
+      <span class="tag">Utilería.js</span>
+    </div>
+    <h1>Iniciar sesión</h1>
+    <form id="loginForm" class="panel" novalidate>
+      
+
+      <div class="campo">
+        <label for="correo">Correo electrónico</label>
+        <input type="text" id="correo" placeholder="maria@ejemplo.com" autocomplete="off" />
+        <div class="error-msg" id="err-correo"></div>
+      </div>
+
+      <div class="campo">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Mínimo 8 caracteres" autocomplete="off" />
+        <div class="error-msg" id="err-password"></div>
+      </div>
+       <P>submit</P>
+      <button type="submit" class="boton-enviar" >Entrar</button>
+    </form>
+
+    
+
+    <footer></footer>
+  </div>
+
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <span class="tag"></span>
+      <p class="modal-edad" style="font-size:40px;"></p>
+      <p class="detalle"> Cierra modal</p>
+      <button type="button" id="cerrarModal" class="boton-enviar">Continuar</button>
+      
+    </div>
+  </div>
+
+  <script src="js/Utileria.js"></script>
+  <script>
+    const loginForm = document.getElementById("loginForm");
+   
+    const modalOverlay = document.getElementById("modalOverlay");
+    document.getElementById("cerrarModal").addEventListener("click", () => {
+      modalOverlay.classList.remove("activo");
+    });
+
+    function log(mensaje, ok) {
+  console.log((ok ? "✓ " : "✗ ") + mensaje);
+}
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+     
+
+      const correo = document.getElementById("correo");
+      const password = document.getElementById("password");
+      const errCorreo = document.getElementById("err-correo");
+      const errPassword = document.getElementById("err-password");
+
+      correo.style.borderColor = "";
+      password.style.borderColor = "";
+      errCorreo.textContent = "";
+      errPassword.textContent = "";
+
+      const correoValido = Utileria.validarCorreo(correo.value);
+      log("validarCorreo(correo) → " + correoValido, correoValido);
+      if (!correoValido) {
+        correo.style.borderColor = "var(--terracotta)";
+        errCorreo.textContent = "Formato de correo inválido.";
+      }
+
+      const passwordValida = Utileria.validarPassword(password.value);
+      log("validarPassword(password) → " + passwordValida, passwordValida);
+      if (!passwordValida) {
+        password.style.borderColor = "var(--terracotta)";
+        errPassword.textContent =
+          "Mín. 8 caracteres, mayúscula, minúscula, número y carácter especial.";
+      }
+
+      if (correoValido && passwordValida) {
+        log("Credenciales con formato válido. Acceso simulado concedido.", true);
+        modalOverlay.classList.add("activo");
+      } else {
+        log("Corrige los campos marcados en rojo.", false);
+      }
+    });
+  </script>
+</body>
+</html>
