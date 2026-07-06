@@ -1,192 +1,102 @@
-/**
- * 
- */
+const form = document.getElementById("formulario");
 
-const Utileria = (function () {
-  "use strict";
+const modalOverlay = document.getElementById("modalOverlay");
+const modalEdadValor = document.getElementById("modalEdadValor");
+const modalDetalle = document.getElementById("modalDetalle");
 
-  // 
+document.getElementById("cerrarModal").addEventListener("click", () => {
+  modalOverlay.classList.remove("activo");
+});
 
-  /**
-   * Valida que un texto tenga formato de correo electrónico.
-   *
-   * @param {string} correo  Texto a validar, ej. "ana@dominio.com".
-   * @returns {boolean} true si el formato es válido, false si no.
-   *
-   * @example
-   * validarCorreo("ana@dominio.com");
-   * validarCorreo("ana@dominio");     
-   */
-  function validarCorreo(correo) {
-    if (typeof correo !== "string") return false;
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    return regex.test(correo.trim());
-  }
-
-  /**
-   
-   *
-   * @param {string} texto -
-   * @returns {boolean}
-   *
-   * @example
-   * 
-   */
-  function soloLetras(texto) {
-    if (typeof texto !== "string" || texto.trim() === "") return false;
-    const regex = /^[A-Za-zÁÉÍÓÚáéíóúÑñÜü]+$/;
-    return regex.test(texto);
-  }
-
-  /**
-   * 
-   *
-   * @param {number|string} numero 
-   * @param {number} maxLongitud 
-   * @returns {boolean} 
-   *
-   * @example
-   * validarLongitud(9511234567, 10); // true  (10 dígitos)
-   * validarLongitud(95112345678, 10); // false (11 dígitos)
-   */
-  function validarLongitud(numero, maxLongitud) {
-    if (numero === null || numero === undefined) return false;
-    const soloDigitos = String(numero).replace(/\D/g, "");
-    if (soloDigitos === "") return false;
-    return soloDigitos.length <= maxLongitud;
-  }
-
-  /**
-   
-   *
-   * @param {string|Date} fechaNacimiento 
-   * @returns {number} 
-   *
-   * @example
-   
-   */
-  function calcularEdad(fechaNacimiento) {
-    const nacimiento = new Date(fechaNacimiento);
-    if (isNaN(nacimiento.getTime())) return NaN;
-
-    const hoy = new Date();
-    let edad = hoy.getFullYear() - nacimiento.getFullYear();
-    const mesActual = hoy.getMonth() - nacimiento.getMonth();
-    const noHaCumplidoAun =
-      mesActual < 0 || (mesActual === 0 && hoy.getDate() < nacimiento.getDate());
-
-    if (noHaCumplidoAun) edad--;
-    return edad;
-  }
-
-  /**
-   
-   *
-   * @param {string|Date} fechaNacimiento 
-   * @returns {boolean} 
-   *
-   * @example
-   * esMayorDeEdad("2005-07-04"); // true
-   * esMayorDeEdad("2015-07-04"); // false
-   */
-  function esMayorDeEdad(fechaNacimiento) {
-    const edad = calcularEdad(fechaNacimiento);
-    if (isNaN(edad)) return false;
-    return edad >= 18;
-  }
-
-  /**
-   
-   *
-   * @param {string} password 
-   * @returns {boolean} 
-   *
-   * @example
-   
-   */
-  function validarPassword(password) {
-    if (typeof password !== "string") return false;
-    const tieneLongitudMinima = password.length >= 8;
-    const tieneMayuscula = /[A-Z]/.test(password);
-    const tieneMinuscula = /[a-z]/.test(password);
-    const tieneNumero = /[0-9]/.test(password);
-    const tieneEspecial = /[^A-Za-z0-9]/.test(password);
-
-    return (
-      tieneLongitudMinima &&
-      tieneMayuscula &&
-      tieneMinuscula &&
-      tieneNumero &&
-      tieneEspecial
-    );
-  }
-
-
-  /**
-   
-   * @param {string} texto - Nombre o texto a capitalizar.
-   * @returns {string} Texto capitalizado palabra por palabra.
-   *
-   * @example
-  
-   */
-  function capitalizarNombre(texto) {
-    if (typeof texto !== "string") return "";
-    return texto
-      .trim()
-      .toLowerCase()
-      .split(/\s+/)
-      .map((palabra) => palabra.charAt(0).toUpperCase() + palabra.slice(1))
-      .join(" ");
-  }
-
-  /**
-  
-   *
-   * @param {string|Date} fechaNacimiento 
-   * @returns {number}
-   *
-   * @example
-
-   */
-  function calcularDiasParaCumpleanos(fechaNacimiento) {
-    const nacimiento = new Date(fechaNacimiento);
-    if (isNaN(nacimiento.getTime())) return NaN;
-
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-
-    let proximoCumple = new Date(
-      hoy.getFullYear(),
-      nacimiento.getMonth(),
-      nacimiento.getDate()
-    );
-    proximoCumple.setHours(0, 0, 0, 0);
-
-    if (proximoCumple.getTime() < hoy.getTime()) {
-      proximoCumple.setFullYear(hoy.getFullYear() + 1);
-    }
-
-    const msPorDia = 1000 * 60 * 60 * 24;
-    return Math.round((proximoCumple.getTime() - hoy.getTime()) / msPorDia);
-  }
-
-  // ==========================================================================
-  // EXPORTAR API PÚBLICA
-  // ==========================================================================
-  return {
-    validarCorreo,
-    soloLetras,
-    validarLongitud,
-    calcularEdad,
-    esMayorDeEdad,
-    validarPassword,
-    capitalizarNombre,
-    calcularDiasParaCumpleanos,
-  };
-})();
-
-
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = Utileria;
+function marcarError(idInput, mensaje) {
+  document.getElementById(idInput).style.borderColor = "var(--terracotta)";
+  document.getElementById("err-" + idInput.replace("err-", "")).textContent = mensaje;
 }
+
+function limpiarErrores() {
+  ["nombre", "correo", "telefono", "fecha", "password"].forEach((id) => {
+    document.getElementById(id).style.borderColor = "";
+    document.getElementById("err-" + id).textContent = "";
+  });
+}
+
+function log(mensaje, ok) {
+  console.log((ok ? "✓ " : "✗ ") + mensaje);
+}
+
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  limpiarErrores();
+
+  const nombre = document.getElementById("nombre").value;
+  const correo = document.getElementById("correo").value;
+  const telefono = document.getElementById("telefono").value;
+  const fecha = document.getElementById("fecha").value;
+  const password = document.getElementById("password").value;
+
+  let valido = true;
+
+  const nombreValido =
+    nombre.trim().length > 0 &&
+    nombre.trim().split(/\s+/).every((palabra) => Utileria.soloLetras(palabra));
+  log("soloLetras(nombre) → " + nombreValido, nombreValido);
+  if (!nombreValido) {
+    document.getElementById("err-nombre").textContent = "Solo letras, sin números ni símbolos.";
+    document.getElementById("nombre").style.borderColor = "var(--terracotta)";
+    valido = false;
+  } else {
+    document.getElementById("nombre").value = Utileria.capitalizarNombre(nombre);
+  }
+
+  const correoValido = Utileria.validarCorreo(correo);
+  log("validarCorreo(correo) → " + correoValido, correoValido);
+  if (!correoValido) {
+    document.getElementById("err-correo").textContent = "Formato de correo inválido.";
+    document.getElementById("correo").style.borderColor = "var(--terracotta)";
+    valido = false;
+  }
+
+  const telefonoValido = Utileria.validarLongitud(telefono, 10) && /^\d+$/.test(telefono);
+  log("validarLongitud(telefono, 10) → " + telefonoValido, telefonoValido);
+  if (!telefonoValido) {
+    document.getElementById("err-telefono").textContent = "Máximo 10 dígitos numéricos.";
+    document.getElementById("telefono").style.borderColor = "var(--terracotta)";
+    valido = false;
+  }
+
+  let edad = NaN;
+  let mayorEdad = false;
+  if (!fecha) {
+    log("calcularEdad(fecha) → sin fecha", false);
+    document.getElementById("err-fecha").textContent = "Selecciona tu fecha de nacimiento.";
+    document.getElementById("fecha").style.borderColor = "var(--terracotta)";
+    valido = false;
+  } else {
+    edad = Utileria.calcularEdad(fecha);
+    mayorEdad = Utileria.esMayorDeEdad(fecha);
+    log("calcularEdad(fecha) → " + edad + " años", true);
+    log("esMayorDeEdad(fecha) → " + mayorEdad, mayorEdad);
+    const diasCumple = Utileria.calcularDiasParaCumpleanos(fecha);
+    log("calcularDiasParaCumpleanos(fecha) → " + diasCumple + " días", true);
+  }
+
+  const passwordValida = Utileria.validarPassword(password);
+  log("validarPassword(password) → " + passwordValida, passwordValida);
+  if (!passwordValida) {
+    document.getElementById("err-password").textContent =
+      "Mín. 8 caracteres, mayúscula, minúscula, número y carácter especial.";
+    document.getElementById("password").style.borderColor = "var(--terracotta)";
+    valido = false;
+  }
+
+  if (valido) {
+    log("Formulario válido. Mostrando modal de edad.", true);
+    modalEdadValor.textContent = edad;
+    modalDetalle.textContent = mayorEdad
+      ? "Eres mayor de edad (esMayorDeEdad → true)"
+      : "Eres menor de edad (esMayorDeEdad → false)";
+    modalOverlay.classList.add("activo");
+  } else {
+    log("Corrige los campos marcados en rojo.", false);
+  }
+});
