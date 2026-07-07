@@ -8,15 +8,27 @@ document.getElementById("cerrarModal").addEventListener("click", () => {
   modalOverlay.classList.remove("activo");
 });
 
-function marcarError(idInput, mensaje) {
-  document.getElementById(idInput).style.borderColor = "var(--terracotta)";
-  document.getElementById("err-" + idInput.replace("err-", "")).textContent = mensaje;
+// Muestra el mensaje de error debajo del campo, forzando estilos
+// para que SIEMPRE se vea, sin importar lo que diga el CSS.
+function mostrarError(idCampo, mensaje) {
+  const input = document.getElementById(idCampo);
+  const errDiv = document.getElementById("err-" + idCampo);
+
+  input.style.borderColor = "var(--terracotta)";
+
+  errDiv.textContent = mensaje;
+  errDiv.style.display = "block";
+  errDiv.style.color = "var(--terracotta)";
+  errDiv.style.marginTop = "4px";
+  errDiv.style.fontSize = "0.85rem";
 }
 
 function limpiarErrores() {
   ["nombre", "correo", "telefono", "fecha", "password"].forEach((id) => {
     document.getElementById(id).style.borderColor = "";
-    document.getElementById("err-" + id).textContent = "";
+    const errDiv = document.getElementById("err-" + id);
+    errDiv.textContent = "";
+    errDiv.style.display = "none";
   });
 }
 
@@ -40,27 +52,30 @@ form.addEventListener("submit", function (e) {
     nombre.trim().length > 0 &&
     nombre.trim().split(/\s+/).every((palabra) => Utileria.soloLetras(palabra));
   log("soloLetras(nombre) → " + nombreValido, nombreValido);
+
+  // Siempre probamos capitalizarNombre, esté bien o mal escrito el nombre,
+  // para poder ver en consola si la función funciona como debe.
+  const nombreCapitalizado = Utileria.capitalizarNombre(nombre);
+  log("capitalizarNombre(nombre) → " + nombreCapitalizado, true);
+
   if (!nombreValido) {
-    document.getElementById("err-nombre").textContent = "Solo letras, sin números ni símbolos.";
-    document.getElementById("nombre").style.borderColor = "var(--terracotta)";
+    mostrarError("nombre", "Solo letras, sin números ni símbolos.");
     valido = false;
   } else {
-    document.getElementById("nombre").value = Utileria.capitalizarNombre(nombre);
+    document.getElementById("nombre").value = nombreCapitalizado;
   }
 
   const correoValido = Utileria.validarCorreo(correo);
   log("validarCorreo(correo) → " + correoValido, correoValido);
   if (!correoValido) {
-    document.getElementById("err-correo").textContent = "Formato de correo inválido.";
-    document.getElementById("correo").style.borderColor = "var(--terracotta)";
+    mostrarError("correo", "Formato de correo inválido.");
     valido = false;
   }
 
   const telefonoValido = Utileria.validarLongitud(telefono, 10) && /^\d+$/.test(telefono);
   log("validarLongitud(telefono, 10) → " + telefonoValido, telefonoValido);
   if (!telefonoValido) {
-    document.getElementById("err-telefono").textContent = "Máximo 10 dígitos numéricos.";
-    document.getElementById("telefono").style.borderColor = "var(--terracotta)";
+    mostrarError("telefono", "Máximo 10 dígitos numéricos.");
     valido = false;
   }
 
@@ -68,14 +83,14 @@ form.addEventListener("submit", function (e) {
   let mayorEdad = false;
   if (!fecha) {
     log("calcularEdad(fecha) → sin fecha", false);
-    document.getElementById("err-fecha").textContent = "Selecciona tu fecha de nacimiento.";
-    document.getElementById("fecha").style.borderColor = "var(--terracotta)";
+    mostrarError("fecha", "Selecciona tu fecha de nacimiento.");
     valido = false;
   } else {
     edad = Utileria.calcularEdad(fecha);
     mayorEdad = Utileria.esMayorDeEdad(fecha);
     log("calcularEdad(fecha) → " + edad + " años", true);
     log("esMayorDeEdad(fecha) → " + mayorEdad, mayorEdad);
+
     const diasCumple = Utileria.calcularDiasParaCumpleanos(fecha);
     log("calcularDiasParaCumpleanos(fecha) → " + diasCumple + " días", true);
   }
@@ -83,9 +98,10 @@ form.addEventListener("submit", function (e) {
   const passwordValida = Utileria.validarPassword(password);
   log("validarPassword(password) → " + passwordValida, passwordValida);
   if (!passwordValida) {
-    document.getElementById("err-password").textContent =
-      "Mín. 8 caracteres, mayúscula, minúscula, número y carácter especial.";
-    document.getElementById("password").style.borderColor = "var(--terracotta)";
+    mostrarError(
+      "password",
+      "Mín. 8 caracteres, mayúscula, minúscula, número y carácter especial."
+    );
     valido = false;
   }
 
